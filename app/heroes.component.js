@@ -15,29 +15,24 @@ var HeroesComponent = (function () {
     function HeroesComponent(router, heroService) {
         this.router = router;
         this.heroService = heroService;
+        this.addingHero = false;
     }
-    HeroesComponent.prototype.ngOnInit = function () {
-        this.getHeroes();
+    HeroesComponent.prototype.getHeroes = function () {
+        var _this = this;
+        this.heroService
+            .getHeroes()
+            .then(function (heroes) { return _this.heroes = heroes; })
+            .catch(function (error) { return _this.error = error; });
     };
-    HeroesComponent.prototype.onSelect = function (hero) {
-        this.selectedHero = hero;
+    HeroesComponent.prototype.addHero = function () {
+        this.addingHero = true;
+        this.selectedHero = null;
     };
     HeroesComponent.prototype.close = function (savedHero) {
         this.addingHero = false;
         if (savedHero) {
             this.getHeroes();
         }
-    };
-    HeroesComponent.prototype.gotoDetail = function () {
-        this.router.navigate(['/detail', this.selectedHero.id]);
-    };
-    HeroesComponent.prototype.getHeroes = function () {
-        var _this = this;
-        this.heroService.getHeroes().then(function (heroes) { return _this.heroes = heroes; });
-    };
-    HeroesComponent.prototype.addHero = function () {
-        this.addingHero = true;
-        this.selectedHero = null;
     };
     HeroesComponent.prototype.deleteHero = function (hero, event) {
         var _this = this;
@@ -51,6 +46,16 @@ var HeroesComponent = (function () {
             }
         })
             .catch(function (error) { return _this.error = error; });
+    };
+    HeroesComponent.prototype.ngOnInit = function () {
+        this.getHeroes();
+    };
+    HeroesComponent.prototype.onSelect = function (hero) {
+        this.selectedHero = hero;
+        this.addingHero = false;
+    };
+    HeroesComponent.prototype.gotoDetail = function () {
+        this.router.navigate(['/detail', this.selectedHero.id]);
     };
     HeroesComponent = __decorate([
         core_1.Component({
