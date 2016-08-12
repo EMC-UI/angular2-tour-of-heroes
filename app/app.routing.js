@@ -1,5 +1,6 @@
 "use strict";
 var router_1 = require('@angular/router');
+// import project components
 var dashboard_component_1 = require('./dashboard.component');
 var heroes_component_1 = require('./heroes.component');
 var hero_detail_component_1 = require('./hero-detail.component');

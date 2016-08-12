@@ -20,8 +20,8 @@ var app_routing_1 = require('./app.routing');
 var heroes_component_1 = require('./heroes.component');
 var dashboard_component_1 = require('./dashboard.component');
 var hero_detail_component_1 = require('./hero-detail.component');
-var hero_service_1 = require('./hero.service');
 var hero_search_component_1 = require('./hero-search.component');
+var hero_service_1 = require('./hero.service');
 var AppModule = (function () {
     function AppModule() {
     }
