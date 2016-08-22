@@ -6,7 +6,7 @@ see https://angular.io/docs/ts/latest/quickstart.html for guidance on the npm se
 docs for the tour of heroes https://angular.io/docs/ts/latest/tutorial/
 
 when running `npm install`, you may run into an error  - unable to find @angular.xxxx - don't panic!
-This is because the local emac npm repo does not have the angular 2 packages cached.  To fix this, just run the command
+This is because the local EMC npm repo does not have the angular 2 packages cached.  To fix this, just run the command
 `npm config set "@angular:registry" http://registry.npmjs.org/`
 
-This tell npm to look for the angular packages on the official npm repo registry.
+This tells npm to look for the angular packages on the official npm repo registry.
