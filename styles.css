@@ -141,5 +141,21 @@ nav a.active {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+img.thumbnail {
+    border-radius: 50px;
+    border: 3px solid #336699;
+    width: 50px;
+    height: 50px;
+}
 
-/
+img.profile {
+    width: 10em;
+    height: 10em;
+}
+.flex_1-1-auto {
+    flex: 1 1 auto;
+}
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}

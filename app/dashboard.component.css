@@ -1,49 +1,48 @@
-[class*='col-'] {
-  float: left;
-}
 *, *:after, *:before {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
 h3 {
   text-align: center; margin-bottom: 0;
 }
-[class*='col-'] {
-  padding-right: 20px;
-  padding-bottom: 20px;
+.cardpack {
+    display:flex;
+    flex-flow:row wrap;
 }
-[class*='col-']:last-of-type {
-  padding-right: 0;
-}
-.grid {
-  margin: 0;
-}
-.col-1-4 {
-  width: 25%;
-}
-.module {
-    padding: 20px;
+.herocard {
+    position:relative;
     text-align: center;
     color: #eee;
-    max-height: 120px;
-    min-width: 120px;
     background-color: #607D8B;
     border-radius: 2px;
+    flex:1 0 auto;
+    display: flex;
+    flex-flow:column;
+    background-size: cover;
+    background-position: top center;
+    height: 10em;
+    justify-content: flex-end;
+    transition: all .2s ease-in-out;
+    overflow: hidden;
+}
+.herocard:hover {
+    transform: scale(1.4);
+    z-index: 1;
+}
+.herocard:hover h4 {
+    transform: translateY(0%);
 }
 h4 {
   position: relative;
+  margin: 0;
+  padding: .5em;
+  background-color: rgba(0,0,0, .7);
+  transform: translateY(100%);
+  transition: all .2s ease-in-out .2s;
 }
 .module:hover {
   background-color: #EEE;
   cursor: pointer;
   color: #607d8b;
-}
-.grid-pad {
-  padding: 10px 0;
-}
-.grid-pad > [class*='col-']:last-of-type {
-  padding-right: 20px;
 }
 @media (max-width: 600px) {
     .module {

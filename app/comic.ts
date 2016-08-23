@@ -1,8 +1,8 @@
 import { Thumbnail } from './thumbnail';
 
-export class Hero {
+export class Comic {
     id: number;
-    name: string;
+    title: string;
     description: string;
-    image: Thumbnail;
+    thumbnail: Thumbnail;
 }
