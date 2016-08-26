@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { Hero } from './hero';
@@ -7,29 +7,32 @@ import { HeroService } from './hero.service';
 @Component({
     selector: 'my-hero-detail',
     templateUrl: 'app/hero-detail.component.html',
-    styleUrls: ['app/hero-detail.component.css']
+    styleUrls: ['app/hero-detail.component.css'],
+    providers: [HeroService]
 })
 
-export class HeroDetailComponent implements OnInit {
-    @Input() hero: Hero;
+export class HeroDetailComponent implements OnInit, OnDestroy {
     @Output() close = new EventEmitter();
+    hero: Hero;    
     error: any;
+    sub: any;
 
-    constructor(
-        private heroService: HeroService,
-        private route: ActivatedRoute) {
+    constructor(private heroService: HeroService,
+                private route: ActivatedRoute) {
     }
 
-    ngOnInit() {
-        this.route.params.forEach((params: Params) => {
-            if (params['id'] !== undefined) {
-                let id = +params['id'];
-                this.heroService.getHero(id)
-                    .then(hero => this.hero = hero);
-            } else {
-                console.log('Error in request to get hero details');
-            }
+    ngOnInit(){
+        this.sub = this.route.params.subscribe(params => {
+          let id = Number.parseInt(params['id']);
+          console.log('getting person with id: ', id);
+          this.heroService
+            .getHero(id)
+            .subscribe(p => this.hero = p);
         });
+    }
+
+    ngOnDestroy(){
+        this.sub.unsubscribe();
     }
 
     goBack() {

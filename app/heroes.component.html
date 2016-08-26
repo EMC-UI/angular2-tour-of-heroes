@@ -1,9 +1,8 @@
 <h2>My Heroes</h2>
 <ul class="heroes">
     <li *ngFor="let hero of heroes" [class.selected]="hero === selectedHero" (click)="onSelect(hero)">
-        <!-- <span class="badge">{{hero.id}}</span> -->
         <div class="flex_1-1-auto">{{hero.name}}</div>
-        <img class="thumbnail" src="{{hero.thumbnail.path + '.' + hero.thumbnail.extension}}" alt="{{hero.name}}">
+        <!-- <img class="thumbnail" src="{{hero.thumbnail.path + '.' + hero.thumbnail.extension}}" alt="{{hero.name}}"> -->
     </li>
     <div class="error" *ngIf="error">{{error}}</div>
 </ul>

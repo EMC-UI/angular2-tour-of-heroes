@@ -1,27 +1,93 @@
 import { Injectable }    from '@angular/core';
-import { Headers, Http } from '@angular/http';
-import 'rxjs/add/operator/toPromise';
+import { Http, Response, Headers } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
+
+import {Md5} from 'ts-md5/dist/md5';
 import { Hero } from './hero';
 
 @Injectable()
 export class HeroService {
-    private heroesUrl = 'app/heroes';  // URL to web api
-    constructor(private http: Http) { }
+    private baseUrl = 'http://gateway.marvel.com';  // URL to web api
+    private publickey = 'a209df55a8f47a76b87abf209cab27ec'; // api public key (limited to 3000 per day)
+    private privatekey = 'b5b63f833293013997ff21bd9f2c1c33dc569987'; //api private key
 
-    getHeroes() {
-        return this.http.get(this.heroesUrl)
-            .toPromise()
-            .then(response => response.json().data as Hero[])
-            .catch(this.handleError);
+    constructor(private http: Http) {
     }
 
-    getHero(id: number) {
-        return this.getHeroes()
-            .then(heroes => heroes.find(hero => hero.id === id));
+    getHeroes(): Observable<Hero[]> {
+        let ts = Date.now();
+
+        let heroes$ = this.http
+          .get(`${this.baseUrl}/v1/public/characters?ts=${ts.toString()}&apikey=${this.publickey}&hash=${hashkey(ts.toString(), this.publickey, this.privatekey)}`, {headers: this.getHeaders()})
+          .map(mapHeroes)
+          .catch(handleError);
+          return heroes$;
     }
 
-    private handleError(error: any) {
-        console.error('An error occurred', error);
-        return Promise.reject(error.message || error);
+    getHero(id: number): Observable<Hero> {
+        let ts = Date.now();
+
+        let hero$ = this.http
+          .get(`${this.baseUrl}/v1/public/characters/${id}?ts=${ts.toString()}&apikey=${this.publickey}&hash=${hashkey(ts.toString(), this.publickey, this.privatekey)}`, {headers: this.getHeaders()})
+          .map(mapHero)
+          .catch(handleError);
+          return hero$;
     }
+
+    search(term: string): Observable<Hero[]> {
+        let ts = Date.now();
+
+        let heroes$ = this.http
+        .get(`${this.baseUrl}/v1/public/characters?nameStartsWith=${term}&ts=${ts.toString()}&apikey=${this.publickey}&hash=${hashkey(ts.toString(), this.publickey, this.privatekey)}`, {headers: this.getHeaders()})
+        .map(mapHeroes)
+        .catch(handleError);
+        return heroes$;
+    }
+
+    private getHeaders(){
+        let headers = new Headers();
+        headers.append('Accept', 'application/json');
+        return headers;
+      }
+}
+
+function mapHeroes(response:Response): Hero[]{
+   // The response of the API has a results
+   // property with the actual results
+   return response.json().data.results.map(toHero);
+}
+
+function mapHero(response:Response): Hero{
+   // toHero looks just like in the previous example
+   // take the first hero found in the returned results array
+   return toHero(response.json().data.results[0]);
+}
+
+function toHero(r:any): Hero{
+    let hero = <Hero>({
+        id: r.id,
+        name: r.name,
+        description: r.description,
+    });
+    console.log('Parsed hero:', hero);
+    return hero;
+}
+
+// this could also be a private method of the component class
+function handleError (error: any) {
+  // log error
+  // could be something more sophisticated
+  let errorMsg = error.message || `Yikes! There was was a problem with the Marvel API and we couldn't retrieve your data!`
+  console.error(errorMsg);
+
+  // throw an application level error
+  return Observable.throw(errorMsg);
+}
+
+function hashkey(timestamp: string , publickey: string, privatekey: string) :string {
+    var _string = timestamp + privatekey + publickey;
+    console.log('hash input: ', _string);
+    var _hash: any = Md5.hashStr( _string );
+    console.log('hash output: ', _hash.toString());
+    return _hash.toString();
 }

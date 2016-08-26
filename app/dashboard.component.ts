@@ -7,11 +7,14 @@ import { HeroService } from './hero.service';
 @Component({
     selector: 'my-dashboard',
     templateUrl: 'app/dashboard.component.html',
-    styleUrls: ['app/dashboard.component.css']
+    styleUrls: ['app/dashboard.component.css'],
+    providers: [HeroService]
 })
 
 export class DashboardComponent implements OnInit {
     heroes: Hero[] = [];
+    errorMessage: string = '';
+    isLoading: boolean = true;
 
     constructor(
         private router: Router,
@@ -19,8 +22,12 @@ export class DashboardComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.heroService.getHeroes()
-            .then(heroes => this.heroes = heroes.slice(1, 5));
+        this.heroService
+          .getHeroes()
+          .subscribe(
+             /* happy path */ p => this.heroes = p.slice(1, 5), //get the first 4
+             /* error path */ e => this.errorMessage = e,
+             /* onComplete */ () => this.isLoading = false);
     }
 
     gotoDetail(hero: Hero) {

@@ -15,16 +15,18 @@ var HeroesComponent = (function () {
     function HeroesComponent(router, heroService) {
         this.router = router;
         this.heroService = heroService;
+        this.heroes = [];
+        this.errorMessage = '';
+        this.isLoading = true;
     }
-    HeroesComponent.prototype.getHeroes = function () {
+    HeroesComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.heroService
             .getHeroes()
-            .then(function (heroes) { return _this.heroes = heroes; })
-            .catch(function (error) { return _this.error = error; });
-    };
-    HeroesComponent.prototype.ngOnInit = function () {
-        this.getHeroes();
+            .subscribe(
+        /* happy path */ function (p) { return _this.heroes = p; }, 
+        /* error path */ function (e) { return _this.errorMessage = e; }, 
+        /* onComplete */ function () { return _this.isLoading = false; });
     };
     HeroesComponent.prototype.onSelect = function (hero) {
         this.selectedHero = hero;
@@ -36,7 +38,8 @@ var HeroesComponent = (function () {
         core_1.Component({
             selector: 'my-heroes',
             templateUrl: 'app/heroes.component.html',
-            styleUrls: ['app/heroes.component.css']
+            styleUrls: ['app/heroes.component.css'],
+            providers: [hero_service_1.HeroService]
         }), 
         __metadata('design:paramtypes', [router_1.Router, hero_service_1.HeroService])
     ], HeroesComponent);

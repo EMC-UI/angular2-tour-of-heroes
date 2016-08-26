@@ -10,25 +10,43 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
-require('rxjs/add/operator/toPromise');
+var Rx_1 = require('rxjs/Rx');
+var md5_1 = require('ts-md5/dist/md5');
 var HeroService = (function () {
     function HeroService(http) {
         this.http = http;
-        this.heroesUrl = 'app/heroes'; // URL to web api
+        this.baseUrl = 'http://gateway.marvel.com'; // URL to web api
+        this.publickey = 'a209df55a8f47a76b87abf209cab27ec'; // api public key (limited to 3000 per day)
+        this.privatekey = 'b5b63f833293013997ff21bd9f2c1c33dc569987'; //api private key
     }
     HeroService.prototype.getHeroes = function () {
-        return this.http.get(this.heroesUrl)
-            .toPromise()
-            .then(function (response) { return response.json().data; })
-            .catch(this.handleError);
+        var ts = Date.now();
+        var heroes$ = this.http
+            .get(this.baseUrl + "/v1/public/characters?ts=" + ts.toString() + "&apikey=" + this.publickey + "&hash=" + hashkey(ts.toString(), this.publickey, this.privatekey), { headers: this.getHeaders() })
+            .map(mapHeroes)
+            .catch(handleError);
+        return heroes$;
     };
     HeroService.prototype.getHero = function (id) {
-        return this.getHeroes()
-            .then(function (heroes) { return heroes.find(function (hero) { return hero.id === id; }); });
+        var ts = Date.now();
+        var hero$ = this.http
+            .get(this.baseUrl + "/v1/public/characters/" + id + "?ts=" + ts.toString() + "&apikey=" + this.publickey + "&hash=" + hashkey(ts.toString(), this.publickey, this.privatekey), { headers: this.getHeaders() })
+            .map(mapHero)
+            .catch(handleError);
+        return hero$;
     };
-    HeroService.prototype.handleError = function (error) {
-        console.error('An error occurred', error);
-        return Promise.reject(error.message || error);
+    HeroService.prototype.search = function (term) {
+        var ts = Date.now();
+        var heroes$ = this.http
+            .get(this.baseUrl + "/v1/public/characters?nameStartsWith=" + term + "&ts=" + ts.toString() + "&apikey=" + this.publickey + "&hash=" + hashkey(ts.toString(), this.publickey, this.privatekey), { headers: this.getHeaders() })
+            .map(mapHeroes)
+            .catch(handleError);
+        return heroes$;
+    };
+    HeroService.prototype.getHeaders = function () {
+        var headers = new http_1.Headers();
+        headers.append('Accept', 'application/json');
+        return headers;
     };
     HeroService = __decorate([
         core_1.Injectable(), 
@@ -37,4 +55,39 @@ var HeroService = (function () {
     return HeroService;
 }());
 exports.HeroService = HeroService;
+function mapHeroes(response) {
+    // The response of the API has a results
+    // property with the actual results
+    return response.json().data.results.map(toHero);
+}
+function mapHero(response) {
+    // toHero looks just like in the previous example
+    // take the first hero found in the returned results array
+    return toHero(response.json().data.results[0]);
+}
+function toHero(r) {
+    var hero = ({
+        id: r.id,
+        name: r.name,
+        description: r.description,
+    });
+    console.log('Parsed hero:', hero);
+    return hero;
+}
+// this could also be a private method of the component class
+function handleError(error) {
+    // log error
+    // could be something more sophisticated
+    var errorMsg = error.message || "Yikes! There was was a problem with the Marvel API and we couldn't retrieve your data!";
+    console.error(errorMsg);
+    // throw an application level error
+    return Rx_1.Observable.throw(errorMsg);
+}
+function hashkey(timestamp, publickey, privatekey) {
+    var _string = timestamp + privatekey + publickey;
+    console.log('hash input: ', _string);
+    var _hash = md5_1.Md5.hashStr(_string);
+    console.log('hash output: ', _hash.toString());
+    return _hash.toString();
+}
 //# sourceMappingURL=hero.service.js.map

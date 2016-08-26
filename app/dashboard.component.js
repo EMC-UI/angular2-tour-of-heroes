@@ -16,11 +16,18 @@ var DashboardComponent = (function () {
         this.router = router;
         this.heroService = heroService;
         this.heroes = [];
+        this.errorMessage = '';
+        this.isLoading = true;
     }
     DashboardComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.heroService.getHeroes()
-            .then(function (heroes) { return _this.heroes = heroes.slice(1, 5); });
+        this.heroService
+            .getHeroes()
+            .subscribe(
+        /* happy path */ function (p) { return _this.heroes = p.slice(1, 5); }, //get the first 4
+        /* error path */ function (//get the first 4
+            e) { return _this.errorMessage = e; }, 
+        /* onComplete */ function () { return _this.isLoading = false; });
     };
     DashboardComponent.prototype.gotoDetail = function (hero) {
         var link = ['/detail', hero.id];
@@ -30,7 +37,8 @@ var DashboardComponent = (function () {
         core_1.Component({
             selector: 'my-dashboard',
             templateUrl: 'app/dashboard.component.html',
-            styleUrls: ['app/dashboard.component.css']
+            styleUrls: ['app/dashboard.component.css'],
+            providers: [hero_service_1.HeroService]
         }), 
         __metadata('design:paramtypes', [router_1.Router, hero_service_1.HeroService])
     ], DashboardComponent);

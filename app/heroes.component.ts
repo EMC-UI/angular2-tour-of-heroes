@@ -2,29 +2,31 @@ import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
 import { Hero }                from './hero';
 import { HeroService }         from './hero.service';
+
 @Component({
     selector: 'my-heroes',
     templateUrl: 'app/heroes.component.html',
-    styleUrls: ['app/heroes.component.css']
+    styleUrls: ['app/heroes.component.css'],
+    providers: [HeroService]
+
 })
 export class HeroesComponent implements OnInit {
-    heroes: Hero[];
+    heroes: Hero[] = [];
+    errorMessage: string = '';
+    isLoading: boolean = true;
     selectedHero: Hero;
-    error: any;
 
     constructor(
         private router: Router,
         private heroService: HeroService) { }
 
-    getHeroes() {
-        this.heroService
-            .getHeroes()
-            .then(heroes => this.heroes = heroes)
-            .catch(error => this.error = error);
-    }
-
     ngOnInit() {
-        this.getHeroes();
+        this.heroService
+        .getHeroes()
+        .subscribe(
+            /* happy path */ p => this.heroes = p,
+            /* error path */ e => this.errorMessage = e,
+            /* onComplete */ () => this.isLoading = false);
     }
 
     onSelect(hero: Hero) {
