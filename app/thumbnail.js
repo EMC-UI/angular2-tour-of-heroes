@@ -1,6 +1,8 @@
 "use strict";
 var Thumbnail = (function () {
-    function Thumbnail() {
+    function Thumbnail(values) {
+        if (values === void 0) { values = {}; }
+        Object.assign(this, values);
     }
     return Thumbnail;
 }());

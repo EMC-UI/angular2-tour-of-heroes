@@ -66,10 +66,15 @@ function mapHero(response) {
     return toHero(response.json().data.results[0]);
 }
 function toHero(r) {
+    console.log('data: ', r);
     var hero = ({
         id: r.id,
         name: r.name,
         description: r.description,
+        image: {
+            extension: r.thumbnail.extension,
+            path: r.thumbnail.path
+        }
     });
     console.log('Parsed hero:', hero);
     return hero;

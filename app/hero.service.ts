@@ -64,11 +64,18 @@ function mapHero(response:Response): Hero{
 }
 
 function toHero(r:any): Hero{
+    console.log('data: ', r);
+
     let hero = <Hero>({
         id: r.id,
         name: r.name,
         description: r.description,
+        image: {
+            extension: r.thumbnail.extension,
+            path: r.thumbnail.path
+        }
     });
+
     console.log('Parsed hero:', hero);
     return hero;
 }
