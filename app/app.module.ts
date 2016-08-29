@@ -8,10 +8,12 @@ import { routing }        from './app.routing';
 
 import { HeroesComponent }      from './heroes.component';
 import { DashboardComponent }   from './dashboard.component';
+import { ComicsGridComponent }   from './comicsGrid.component';
 import { HeroDetailComponent }  from './hero-detail.component';
 import { HeroSearchComponent } from './hero-search.component';
 
 import { HeroService }  from './hero.service';
+import { ComicService }  from './comic.service';
 
 @NgModule({
     imports: [
@@ -24,6 +26,7 @@ import { HeroService }  from './hero.service';
         AppComponent,
         HeroesComponent,
         DashboardComponent,
+        ComicsGridComponent,
         HeroDetailComponent,
         HeroSearchComponent
     ],

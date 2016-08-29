@@ -12,86 +12,81 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var Rx_1 = require('rxjs/Rx');
 var md5_1 = require('ts-md5/dist/md5');
-var HeroService = (function () {
-    function HeroService(http) {
+var ComicService = (function () {
+    function ComicService(http) {
         this.http = http;
         this.baseUrl = 'http://gateway.marvel.com'; // URL to web api
         this.publickey = 'a209df55a8f47a76b87abf209cab27ec'; // api public key (limited to 3000 per day)
         this.privatekey = 'b5b63f833293013997ff21bd9f2c1c33dc569987'; //api private key
     }
-    HeroService.prototype.getHeroes = function () {
+    ComicService.prototype.getComics = function () {
         var ts = Date.now();
-        var heroes$ = this.http
-            .get(this.baseUrl + "/v1/public/characters?ts=" + ts.toString() + "&apikey=" + this.publickey + "&hash=" + hashkey(ts.toString(), this.publickey, this.privatekey), { headers: this.getHeaders() })
-            .map(mapHeroes)
+        var comics$ = this.http
+            .get(this.baseUrl + "/v1/public/comics?ts=" + ts.toString() + "&apikey=" + this.publickey + "&hash=" + hashkey(ts.toString(), this.publickey, this.privatekey), { headers: this.getHeaders() })
+            .map(mapComics)
             .catch(handleError);
-        return heroes$;
+        return comics$;
     };
-    HeroService.prototype.getHero = function (id) {
+    ComicService.prototype.getComic = function (id) {
         var ts = Date.now();
-        var hero$ = this.http
-            .get(this.baseUrl + "/v1/public/characters/" + id + "?ts=" + ts.toString() + "&apikey=" + this.publickey + "&hash=" + hashkey(ts.toString(), this.publickey, this.privatekey), { headers: this.getHeaders() })
-            .map(mapHero)
+        var comic$ = this.http
+            .get(this.baseUrl + "/v1/public/comics/" + id + "?ts=" + ts.toString() + "&apikey=" + this.publickey + "&hash=" + hashkey(ts.toString(), this.publickey, this.privatekey), { headers: this.getHeaders() })
+            .map(mapComic)
             .catch(handleError);
-        return hero$;
+        return comic$;
     };
-    HeroService.prototype.getHeroesForComics = function (id) {
+    ComicService.prototype.getComicsForHero = function (id) {
         var ts = Date.now();
-        var heroes$ = this.http
-            .get(this.baseUrl + "/v1/public/comics/" + id + "/characters?ts=" + ts.toString() + "&apikey=" + this.publickey + "&hash=" + hashkey(ts.toString(), this.publickey, this.privatekey), { headers: this.getHeaders() })
-            .map(mapHero)
+        var comics$ = this.http
+            .get(this.baseUrl + "/v1/public/characters/" + id + "/comics?ts=" + ts.toString() + "&apikey=" + this.publickey + "&hash=" + hashkey(ts.toString(), this.publickey, this.privatekey), { headers: this.getHeaders() })
+            .map(mapComics)
             .catch(handleError);
-        return heroes$;
+        return comics$;
     };
-    HeroService.prototype.search = function (term) {
+    ComicService.prototype.search = function (term) {
         var ts = Date.now();
-        var heroes$ = this.http
-            .get(this.baseUrl + "/v1/public/characters?nameStartsWith=" + term + "&ts=" + ts.toString() + "&apikey=" + this.publickey + "&hash=" + hashkey(ts.toString(), this.publickey, this.privatekey), { headers: this.getHeaders() })
-            .map(mapHeroes)
+        var comics$ = this.http
+            .get(this.baseUrl + "/v1/public/comic?nameStartsWith=" + term + "&ts=" + ts.toString() + "&apikey=" + this.publickey + "&hash=" + hashkey(ts.toString(), this.publickey, this.privatekey), { headers: this.getHeaders() })
+            .map(mapComics)
             .catch(handleError);
-        return heroes$;
+        return comics$;
     };
-    HeroService.prototype.getHeaders = function () {
+    ComicService.prototype.getHeaders = function () {
         var headers = new http_1.Headers();
         headers.append('Accept', 'application/json');
         return headers;
     };
-    HeroService = __decorate([
+    ComicService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])
-    ], HeroService);
-    return HeroService;
+    ], ComicService);
+    return ComicService;
 }());
-exports.HeroService = HeroService;
-function mapHeroes(response) {
+exports.ComicService = ComicService;
+function mapComics(response) {
     // The response of the API has a results
     // property with the actual results
-    return response.json().data.results.map(toHero);
+    return response.json().data.results.map(toComic);
 }
-function mapHero(response) {
+function mapComic(response) {
     // toHero looks just like in the previous example
     // take the first hero found in the returned results array
-    return toHero(response.json().data.results[0]);
+    return toComic(response.json().data.results[0]);
 }
-function toHero(r) {
+function toComic(r) {
     console.log('data: ', r);
-    var hero = ({
-        id: r.id,
-        name: r.name,
-        description: r.description,
-        thumbnail: {
-            extension: r.thumbnail.extension,
-            path: r.thumbnail.path
-        }
-    });
-    console.log('Parsed hero:', hero);
-    return hero;
+    if (!r.description) {
+        r.description = null;
+    }
+    var comic = (r);
+    console.log('Parsed comic:', comic);
+    return comic;
 }
 // this could also be a private method of the component class
 function handleError(error) {
     // log error
     // could be something more sophisticated
-    var errorMsg = error.message || "Yikes! There was was a problem with the Marvel API and we couldn't retrieve your data!";
+    var errorMsg = error.message || "Yikes! There was was a problem with the Marvel API and we couldn't retrieve your comic data!";
     console.error(errorMsg);
     // throw an application level error
     return Rx_1.Observable.throw(errorMsg);
@@ -103,4 +98,4 @@ function hashkey(timestamp, publickey, privatekey) {
     console.log('hash output: ', _hash.toString());
     return _hash.toString();
 }
-//# sourceMappingURL=hero.service.js.map
+//# sourceMappingURL=comic.service.js.map

@@ -1,8 +1,8 @@
-export class Thumbnail {
+export class Image {
     path: string;
     extension: string;
 
-    constructor(values: Object = {}) { 
+    constructor(values: Object = {}) {
         Object.assign(this, values)
     }
 }

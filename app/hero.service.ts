@@ -34,6 +34,16 @@ export class HeroService {
           return hero$;
     }
 
+    getHeroesForComics(id: number): Observable<Hero[]> {
+        let ts = Date.now();
+
+        let heroes$ = this.http
+          .get(`${this.baseUrl}/v1/public/comics/${id}/characters?ts=${ts.toString()}&apikey=${this.publickey}&hash=${hashkey(ts.toString(), this.publickey, this.privatekey)}`, {headers: this.getHeaders()})
+          .map(mapHero)
+          .catch(handleError);
+          return heroes$;
+    }
+
     search(term: string): Observable<Hero[]> {
         let ts = Date.now();
 
@@ -70,7 +80,7 @@ function toHero(r:any): Hero{
         id: r.id,
         name: r.name,
         description: r.description,
-        image: {
+        thumbnail: {
             extension: r.thumbnail.extension,
             path: r.thumbnail.path
         }
