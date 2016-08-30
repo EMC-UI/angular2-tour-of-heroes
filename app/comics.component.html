@@ -1,0 +1,8 @@
+<h2>My Comics</h2>
+<ul class="comics">
+    <li *ngFor="let comic of comics" [class.selected]="comic === selectedComic" (click)="onSelect(comic)">
+        <div class="flex_1-1-auto">{{comic.title}}</div>
+        <img class="thumbnail" src="{{comic.thumbnail.path + '.' + comic.thumbnail.extension}}" alt="{{comic.title}}">
+    </li>
+    <div class="error" *ngIf="error">{{error}}</div>
+</ul>

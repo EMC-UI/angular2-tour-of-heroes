@@ -6,9 +6,9 @@ import { Comic } from './comic';
 import { ComicService } from './comic.service';
 
 @Component({
-    selector: 'comic-grid',
-    templateUrl: 'app/comicsGrid.component.html',
-    styleUrls: ['app/comicsGrid.component.css'],
+    selector: 'my-comic-grid',
+    templateUrl: 'app/comics-grid.component.html',
+    styleUrls: ['app/comics-grid.component.css'],
     providers: [ComicService]
 })
 
@@ -20,13 +20,13 @@ export class ComicsGridComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private ComicService: ComicService) {
+        private comicService: ComicService) {
     }
 
     ngOnInit() {
           let id = this.heroId;
           console.log('getting comics for hero with id: ', id);
-        this.ComicService
+        this.comicService
           .getComicsForHero(id)
           .subscribe(
              /* happy path */ p => this.comics = p, //get the first 4
@@ -35,7 +35,7 @@ export class ComicsGridComponent implements OnInit {
     }
 
     gotoDetail(comic: Comic) {
-        let link = ['/comic-details', comic.id];
+        let link = ['/comic-detail', comic.id];
         this.router.navigate(link);
     }
 }

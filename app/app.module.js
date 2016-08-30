@@ -14,9 +14,13 @@ var forms_1 = require('@angular/forms');
 var http_1 = require('@angular/http');
 var app_component_1 = require('./app.component');
 var app_routing_1 = require('./app.routing');
+var comics_component_1 = require('./comics.component');
 var heroes_component_1 = require('./heroes.component');
 var dashboard_component_1 = require('./dashboard.component');
-var comicsGrid_component_1 = require('./comicsGrid.component');
+var comics_dashboard_component_1 = require('./comics-dashboard.component');
+var comics_grid_component_1 = require('./comics-grid.component');
+var comic_detail_component_1 = require('./comic-detail.component');
+var heroes_grid_component_1 = require('./heroes-grid.component');
 var hero_detail_component_1 = require('./hero-detail.component');
 var hero_search_component_1 = require('./hero-search.component');
 var AppModule = (function () {
@@ -32,9 +36,13 @@ var AppModule = (function () {
             ],
             declarations: [
                 app_component_1.AppComponent,
+                comics_component_1.ComicsComponent,
                 heroes_component_1.HeroesComponent,
                 dashboard_component_1.DashboardComponent,
-                comicsGrid_component_1.ComicsGridComponent,
+                comics_dashboard_component_1.ComicsDashboardComponent,
+                comics_grid_component_1.ComicsGridComponent,
+                comic_detail_component_1.ComicDetailComponent,
+                heroes_grid_component_1.HeroesGridComponent,
                 hero_detail_component_1.HeroDetailComponent,
                 hero_search_component_1.HeroSearchComponent
             ],

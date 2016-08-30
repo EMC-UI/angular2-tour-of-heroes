@@ -11,38 +11,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var comic_service_1 = require('./comic.service');
-var ComicGridComponent = (function () {
-    function ComicGridComponent(router, ComicService) {
+var ComicsDashboardComponent = (function () {
+    function ComicsDashboardComponent(router, comicService) {
         this.router = router;
-        this.ComicService = ComicService;
+        this.comicService = comicService;
         this.comics = [];
         this.errorMessage = '';
         this.isLoading = true;
     }
-    ComicGridComponent.prototype.ngOnInit = function () {
+    ComicsDashboardComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.ComicService
+        this.comicService
             .getComics()
             .subscribe(
-        /* happy path */ function (p) { return _this.comics = p; }, //get the first 4
+        /* happy path */ function (p) { return _this.comics = p.slice(1, 10); }, //get the first 4
         /* error path */ function (//get the first 4
             e) { return _this.errorMessage = e; }, 
         /* onComplete */ function () { return _this.isLoading = false; });
     };
-    ComicGridComponent.prototype.gotoDetail = function (comic) {
-        var link = ['/comic-details', comic.id];
+    ComicsDashboardComponent.prototype.gotoDetail = function (comic) {
+        var link = ['/comic-detail', comic.id];
         this.router.navigate(link);
     };
-    ComicGridComponent = __decorate([
+    ComicsDashboardComponent = __decorate([
         core_1.Component({
-            selector: 'comic-grid',
-            templateUrl: 'app/comicGrid.component.html',
-            styleUrls: ['app/comicGrid.component.css'],
+            selector: 'my-comic-dashboard',
+            templateUrl: 'app/comics-grid.component.html',
+            styleUrls: ['app/comics-grid.component.css'],
             providers: [comic_service_1.ComicService]
         }), 
         __metadata('design:paramtypes', [router_1.Router, comic_service_1.ComicService])
-    ], ComicGridComponent);
-    return ComicGridComponent;
+    ], ComicsDashboardComponent);
+    return ComicsDashboardComponent;
 }());
-exports.ComicGridComponent = ComicGridComponent;
-//# sourceMappingURL=comicGrid.component.js.map
+exports.ComicsDashboardComponent = ComicsDashboardComponent;
+//# sourceMappingURL=comics-dashboard.component.js.map

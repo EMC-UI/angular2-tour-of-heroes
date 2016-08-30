@@ -7,5 +7,5 @@ import './rxjs-extensions';
     styleUrls: ['app/app.component.css']
 })
 export class AppComponent {
-    title = 'Tour of Heroes';
+    title = 'Marvel Comics';
 }

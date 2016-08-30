@@ -1,0 +1,21 @@
+<div *ngIf="comic">
+    <h2>{{comic.title}} details!</h2>
+    <div class="flex-row">
+        <div>
+            <div>
+                <label>id: </label>{{comic.id}}
+            </div>
+            <div>
+                <label>title: </label>{{comic.title}}
+            </div>
+            <div>
+                {{comic.description}}
+            </div>
+        </div>
+        <div>
+            <img class="profile" src="{{comic.thumbnail.path + '.' + comic.thumbnail.extension}}" alt="{{comic.title}}" height="42" width="42">
+        </div>
+    </div>
+    <my-hero-grid comicId="{{comic.id}}"></my-hero-grid>
+    <button (click)="goBack()">Back</button>
+</div>

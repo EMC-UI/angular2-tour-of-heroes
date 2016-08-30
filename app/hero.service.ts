@@ -34,7 +34,7 @@ export class HeroService {
           return hero$;
     }
 
-    getHeroesForComics(id: number): Observable<Hero[]> {
+    getHeroesForComic(id: number): Observable<Hero[]> {
         let ts = Date.now();
 
         let heroes$ = this.http

@@ -10,45 +10,45 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
-var comic_service_1 = require('./comic.service');
-var ComicsGridComponent = (function () {
-    function ComicsGridComponent(router, ComicService) {
+var hero_service_1 = require('./hero.service');
+var HeroesGridComponent = (function () {
+    function HeroesGridComponent(router, heroService) {
         this.router = router;
-        this.ComicService = ComicService;
-        this.comics = [];
+        this.heroService = heroService;
+        this.heroes = [];
         this.errorMessage = '';
         this.isLoading = true;
     }
-    ComicsGridComponent.prototype.ngOnInit = function () {
+    HeroesGridComponent.prototype.ngOnInit = function () {
         var _this = this;
-        var id = this.heroId;
-        console.log('getting comics for hero with id: ', id);
-        this.ComicService
-            .getComicsForHero(id)
+        var id = this.comicId;
+        console.log('getting heroes for comic with id: ', id);
+        this.heroService
+            .getHeroesForComic(id)
             .subscribe(
-        /* happy path */ function (p) { return _this.comics = p; }, //get the first 4
+        /* happy path */ function (p) { return _this.heroes = p; }, //get the first 4
         /* error path */ function (//get the first 4
             e) { return _this.errorMessage = e; }, 
         /* onComplete */ function () { return _this.isLoading = false; });
     };
-    ComicsGridComponent.prototype.gotoDetail = function (comic) {
-        var link = ['/comic-details', comic.id];
+    HeroesGridComponent.prototype.gotoDetail = function (hero) {
+        var link = ['/hero-detail', hero.id];
         this.router.navigate(link);
     };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', Number)
-    ], ComicsGridComponent.prototype, "heroId", void 0);
-    ComicsGridComponent = __decorate([
+    ], HeroesGridComponent.prototype, "comicId", void 0);
+    HeroesGridComponent = __decorate([
         core_1.Component({
-            selector: 'comic-grid',
-            templateUrl: 'app/comicsGrid.component.html',
-            styleUrls: ['app/comicsGrid.component.css'],
-            providers: [comic_service_1.ComicService]
+            selector: 'my-hero-grid',
+            templateUrl: 'app/heroes-grid.component.html',
+            styleUrls: ['app/heroes-grid.component.css'],
+            providers: [hero_service_1.HeroService]
         }), 
-        __metadata('design:paramtypes', [router_1.Router, comic_service_1.ComicService])
-    ], ComicsGridComponent);
-    return ComicsGridComponent;
+        __metadata('design:paramtypes', [router_1.Router, hero_service_1.HeroService])
+    ], HeroesGridComponent);
+    return HeroesGridComponent;
 }());
-exports.ComicsGridComponent = ComicsGridComponent;
-//# sourceMappingURL=comicsGrid.component.js.map
+exports.HeroesGridComponent = HeroesGridComponent;
+//# sourceMappingURL=heroes-grid.component.js.map

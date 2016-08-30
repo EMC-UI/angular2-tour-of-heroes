@@ -1,7 +1,9 @@
 import { Routes, RouterModule } from '@angular/router';
 // import project components
 import { DashboardComponent }  from './dashboard.component';
-import { ComicsDashboardComponent }  from './comicsDashboard.component';
+import { ComicsDashboardComponent }  from './comics-dashboard.component';
+import { ComicsComponent }     from './comics.component';
+import { ComicDetailComponent } from './comic-detail.component';
 import { HeroesComponent }     from './heroes.component';
 import { HeroDetailComponent } from './hero-detail.component';
 
@@ -16,7 +18,11 @@ const appRoutes: Routes = [
         component: DashboardComponent
     },
     {
-        path: 'detail/:id',
+        path: 'comics-dashboard',
+        component: ComicsDashboardComponent
+    },
+    {
+        path: 'hero-detail/:id',
         component: HeroDetailComponent
     },
     {
@@ -24,8 +30,12 @@ const appRoutes: Routes = [
         component: HeroesComponent
     },
     {
+        path: 'comic-detail/:id',
+        component: ComicDetailComponent
+    },
+    {
         path: 'comics',
-        component: ComicsDashboardComponent
+        component: ComicsComponent
     }
 ];
 

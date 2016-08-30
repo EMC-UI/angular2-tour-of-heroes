@@ -10,43 +10,43 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
-var hero_service_1 = require('./hero.service');
-var HeroDetailComponent = (function () {
-    function HeroDetailComponent(heroService, route) {
-        this.heroService = heroService;
+var comic_service_1 = require('./comic.service');
+var ComicDetailComponent = (function () {
+    function ComicDetailComponent(comicService, route) {
+        this.comicService = comicService;
         this.route = route;
         this.close = new core_1.EventEmitter();
     }
-    HeroDetailComponent.prototype.ngOnInit = function () {
+    ComicDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.sub = this.route.params.subscribe(function (params) {
             var id = Number.parseInt(params['id']);
-            console.log('getting hero with id: ', id);
-            _this.heroService
-                .getHero(id)
-                .subscribe(function (p) { return _this.hero = p; });
+            console.log('getting Comic with id: ', id);
+            _this.comicService
+                .getComic(id)
+                .subscribe(function (p) { return _this.comic = p; });
         });
     };
-    HeroDetailComponent.prototype.ngOnDestroy = function () {
+    ComicDetailComponent.prototype.ngOnDestroy = function () {
         this.sub.unsubscribe();
     };
-    HeroDetailComponent.prototype.goBack = function () {
+    ComicDetailComponent.prototype.goBack = function () {
         window.history.back();
     };
     __decorate([
         core_1.Output(), 
         __metadata('design:type', Object)
-    ], HeroDetailComponent.prototype, "close", void 0);
-    HeroDetailComponent = __decorate([
+    ], ComicDetailComponent.prototype, "close", void 0);
+    ComicDetailComponent = __decorate([
         core_1.Component({
-            selector: 'my-hero-detail',
-            templateUrl: 'app/hero-detail.component.html',
-            styleUrls: ['app/hero-detail.component.css'],
-            providers: [hero_service_1.HeroService]
+            selector: 'my-comic-detail',
+            templateUrl: 'app/comic-detail.component.html',
+            styleUrls: ['app/comic-detail.component.css'],
+            providers: [comic_service_1.ComicService]
         }), 
-        __metadata('design:paramtypes', [hero_service_1.HeroService, router_1.ActivatedRoute])
-    ], HeroDetailComponent);
-    return HeroDetailComponent;
+        __metadata('design:paramtypes', [comic_service_1.ComicService, router_1.ActivatedRoute])
+    ], ComicDetailComponent);
+    return ComicDetailComponent;
 }());
-exports.HeroDetailComponent = HeroDetailComponent;
-//# sourceMappingURL=hero-detail.component.js.map
+exports.ComicDetailComponent = ComicDetailComponent;
+//# sourceMappingURL=comic-detail.component.js.map

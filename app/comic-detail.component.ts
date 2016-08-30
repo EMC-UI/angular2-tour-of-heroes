@@ -1,33 +1,33 @@
 import { Component, EventEmitter, Output, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { Hero } from './hero';
-import { HeroService } from './hero.service';
+import { Comic } from './comic';
+import { ComicService } from './comic.service';
 
 @Component({
-    selector: 'my-hero-detail',
-    templateUrl: 'app/hero-detail.component.html',
-    styleUrls: ['app/hero-detail.component.css'],
-    providers: [HeroService]
+    selector: 'my-comic-detail',
+    templateUrl: 'app/comic-detail.component.html',
+    styleUrls: ['app/comic-detail.component.css'],
+    providers: [ComicService]
 })
 
-export class HeroDetailComponent implements OnInit, OnDestroy {
+export class ComicDetailComponent implements OnInit, OnDestroy {
     @Output() close = new EventEmitter();
-    hero: Hero;
+    comic: Comic;
     error: any;
     sub: any;
 
-    constructor(private heroService: HeroService,
+    constructor(private comicService: ComicService,
                 private route: ActivatedRoute) {
     }
 
     ngOnInit(){
         this.sub = this.route.params.subscribe(params => {
           let id = Number.parseInt(params['id']);
-          console.log('getting hero with id: ', id);
-          this.heroService
-            .getHero(id)
-            .subscribe(p => this.hero = p);
+          console.log('getting Comic with id: ', id);
+          this.comicService
+            .getComic(id)
+            .subscribe(p => this.comic = p);
         });
     }
 

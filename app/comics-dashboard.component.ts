@@ -5,9 +5,9 @@ import { Comic } from './comic';
 import { ComicService } from './comic.service';
 
 @Component({
-    selector: 'comic-dashboard',
-    templateUrl: 'app/comicsGrid.component.html',
-    styleUrls: ['app/comicsGrid.component.css'],
+    selector: 'my-comic-dashboard',
+    templateUrl: 'app/comics-grid.component.html',
+    styleUrls: ['app/comics-grid.component.css'],
     providers: [ComicService]
 })
 
@@ -18,11 +18,11 @@ export class ComicsDashboardComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private ComicService: ComicService) {
+        private comicService: ComicService) {
     }
 
     ngOnInit() {
-        this.ComicService
+        this.comicService
           .getComics()
           .subscribe(
              /* happy path */ p => this.comics = p.slice(1, 10), //get the first 4
@@ -31,7 +31,7 @@ export class ComicsDashboardComponent implements OnInit {
     }
 
     gotoDetail(comic: Comic) {
-        let link = ['/comic-details', comic.id];
+        let link = ['/comic-detail', comic.id];
         this.router.navigate(link);
     }
 }

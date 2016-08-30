@@ -35,7 +35,7 @@ var HeroService = (function () {
             .catch(handleError);
         return hero$;
     };
-    HeroService.prototype.getHeroesForComics = function (id) {
+    HeroService.prototype.getHeroesForComic = function (id) {
         var ts = Date.now();
         var heroes$ = this.http
             .get(this.baseUrl + "/v1/public/comics/" + id + "/characters?ts=" + ts.toString() + "&apikey=" + this.publickey + "&hash=" + hashkey(ts.toString(), this.publickey, this.privatekey), { headers: this.getHeaders() })

@@ -12,7 +12,7 @@ var core_1 = require('@angular/core');
 require('./rxjs-extensions');
 var AppComponent = (function () {
     function AppComponent() {
-        this.title = 'Tour of Heroes';
+        this.title = 'Marvel Comics';
     }
     AppComponent = __decorate([
         core_1.Component({
