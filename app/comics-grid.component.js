@@ -19,7 +19,7 @@ var ComicsGridComponent = (function () {
         this.errorMessage = '';
         this.isLoading = true;
     }
-    ComicsGridComponent.prototype.ngOnInit = function () {
+    ComicsGridComponent.prototype.ngOnChanges = function () {
         var _this = this;
         var id = this.heroId;
         console.log('getting comics for hero with id: ', id);

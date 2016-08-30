@@ -19,16 +19,15 @@ var HeroesGridComponent = (function () {
         this.errorMessage = '';
         this.isLoading = true;
     }
-    HeroesGridComponent.prototype.ngOnInit = function () {
+    HeroesGridComponent.prototype.ngOnChanges = function () {
         var _this = this;
         var id = this.comicId;
         console.log('getting heroes for comic with id: ', id);
         this.heroService
             .getHeroesForComic(id)
             .subscribe(
-        /* happy path */ function (p) { return _this.heroes = p; }, //get the first 4
-        /* error path */ function (//get the first 4
-            e) { return _this.errorMessage = e; }, 
+        /* happy path */ function (p) { return _this.heroes = p; }, 
+        /* error path */ function (e) { return _this.errorMessage = e; }, 
         /* onComplete */ function () { return _this.isLoading = false; });
     };
     HeroesGridComponent.prototype.gotoDetail = function (hero) {

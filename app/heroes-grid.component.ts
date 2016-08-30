@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 
@@ -12,7 +12,7 @@ import { HeroService } from './hero.service';
     providers: [HeroService]
 })
 
-export class HeroesGridComponent implements OnInit {
+export class HeroesGridComponent implements OnChanges {
     @Input() comicId: number;
     heroes: Hero[] = [];
     errorMessage: string = '';
@@ -23,13 +23,13 @@ export class HeroesGridComponent implements OnInit {
         private heroService: HeroService) {
     }
 
-    ngOnInit() {
+    ngOnChanges() {
           let id = this.comicId;
           console.log('getting heroes for comic with id: ', id);
         this.heroService
           .getHeroesForComic(id)
           .subscribe(
-             /* happy path */ p => this.heroes = p, //get the first 4
+             /* happy path */ p => this.heroes = p,
              /* error path */ e => this.errorMessage = e,
              /* onComplete */ () => this.isLoading = false);
     }

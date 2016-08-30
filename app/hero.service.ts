@@ -39,7 +39,7 @@ export class HeroService {
 
         let heroes$ = this.http
           .get(`${this.baseUrl}/v1/public/comics/${id}/characters?ts=${ts.toString()}&apikey=${this.publickey}&hash=${hashkey(ts.toString(), this.publickey, this.privatekey)}`, {headers: this.getHeaders()})
-          .map(mapHero)
+          .map(mapHeroes)
           .catch(handleError);
           return heroes$;
     }

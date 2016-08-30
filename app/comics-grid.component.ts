@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 
@@ -12,7 +12,7 @@ import { ComicService } from './comic.service';
     providers: [ComicService]
 })
 
-export class ComicsGridComponent implements OnInit {
+export class ComicsGridComponent implements OnChanges {
     @Input() heroId: number;
     comics: Comic[] = [];
     errorMessage: string = '';
@@ -23,7 +23,7 @@ export class ComicsGridComponent implements OnInit {
         private comicService: ComicService) {
     }
 
-    ngOnInit() {
+    ngOnChanges() {
           let id = this.heroId;
           console.log('getting comics for hero with id: ', id);
         this.comicService
