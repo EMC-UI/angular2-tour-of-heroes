@@ -149,8 +149,8 @@ img.thumbnail {
 }
 
 img.profile {
-    width: 10em;
-    height: 10em;
+    width: 100%;
+    height: auto;
 }
 .flex_1-1-auto {
     flex: 1 1 auto;

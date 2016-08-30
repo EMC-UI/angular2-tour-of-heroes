@@ -1,10 +1,7 @@
 <div *ngIf="comic">
     <h2>{{comic.title}} details!</h2>
     <div class="flex-row">
-        <div>
-            <div>
-                <label>id: </label>{{comic.id}}
-            </div>
+        <div style="flex: 1 1 0">
             <div>
                 <label>title: </label>{{comic.title}}
             </div>
@@ -12,7 +9,7 @@
                 {{comic.description}}
             </div>
         </div>
-        <div>
+        <div style="flex: 1 1 0">
             <img class="profile" src="{{comic.thumbnail.path + '.' + comic.thumbnail.extension}}" alt="{{comic.title}}" height="42" width="42">
         </div>
     </div>

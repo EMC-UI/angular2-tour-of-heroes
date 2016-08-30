@@ -38,7 +38,7 @@ var ComicService = (function () {
     ComicService.prototype.getComicsForHero = function (id) {
         var ts = Date.now();
         var comics$ = this.http
-            .get(this.baseUrl + "/v1/public/characters/" + id + "/comics?ts=" + ts.toString() + "&apikey=" + this.publickey + "&hash=" + hashkey(ts.toString(), this.publickey, this.privatekey), { headers: this.getHeaders() })
+            .get(this.baseUrl + "/v1/public/characters/" + id + "/comics?orderBy=-onsaleDate&ts=" + ts.toString() + "&apikey=" + this.publickey + "&hash=" + hashkey(ts.toString(), this.publickey, this.privatekey), { headers: this.getHeaders() })
             .map(mapComics)
             .catch(handleError);
         return comics$;

@@ -38,7 +38,7 @@ export class ComicService {
         let ts = Date.now();
 
         let comics$ = this.http
-          .get(`${this.baseUrl}/v1/public/characters/${id}/comics?ts=${ts.toString()}&apikey=${this.publickey}&hash=${hashkey(ts.toString(), this.publickey, this.privatekey)}`, {headers: this.getHeaders()})
+          .get(`${this.baseUrl}/v1/public/characters/${id}/comics?orderBy=-onsaleDate&ts=${ts.toString()}&apikey=${this.publickey}&hash=${hashkey(ts.toString(), this.publickey, this.privatekey)}`, {headers: this.getHeaders()})
           .map(mapComics)
           .catch(handleError);
           return comics$;
@@ -80,7 +80,7 @@ function toComic(r:any): Comic{
         r.description = null;
     }
 
-    let comic = <Comic>( r 
+    let comic = <Comic>( r
         // id: r.id,
         // title: r.title,
         // issueNumber: r.issueNumber,

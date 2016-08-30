@@ -1,15 +1,16 @@
 <h1>{{title}}</h1>
 <nav>
     <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-    <a routerLink="/heroes" routerLinkActive="active">Heroes</a>
-    <a routerLink="/comics" routerLinkActive="active">Comics</a>
 </nav>
-<div style="float: left;">
-    <my-heroes></my-heroes>
-</div>
-<div style="float: right;">
-    <my-comics></my-comics>
-</div>
-<div>
-    <router-outlet></router-outlet>
+
+<div style="display: flex; flex-direction: row;">
+    <div style="flex: 0 0 auto;">
+        <my-heroes></my-heroes>
+    </div>
+    <div style="flex: 1 1 auto;">
+        <router-outlet></router-outlet>
+    </div>
+    <div style="flex: 0 0 auto;">
+        <my-comics></my-comics>
+    </div>
 </div>

@@ -1,10 +1,7 @@
 <div *ngIf="hero">
     <h2>{{hero.name}} details!</h2>
     <div class="flex-row">
-        <div>
-            <div>
-                <label>id: </label>{{hero.id}}
-            </div>
+        <div style="flex: 1 1 0">
             <div>
                 <label>name: </label>{{hero.name}}
             </div>
@@ -12,10 +9,10 @@
                 {{hero.description}}
             </div>
         </div>
-        <div>
+        <div style="flex: 1 1 0">
             <img class="profile" src="{{hero.thumbnail.path + '.' + hero.thumbnail.extension}}" alt="{{hero.name}}" height="42" width="42">
         </div>
     </div>
-    <my-comic-grid heroId="{{hero.id}}"></my-comic-grid> 
+    <my-comic-grid heroId="{{hero.id}}"></my-comic-grid>
     <button (click)="goBack()">Back</button>
 </div>

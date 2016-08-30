@@ -3,19 +3,11 @@
 Loading Marvel Comics!!! Retrieving data...
 </section>
 
-<div *ngIf="comics">
+<div *ngIf="!isLoading">
     Found {{comics.length}} Comics
     <div class="cardpack">
         <div class="card comic" *ngFor="let comic of comics" (click)="gotoDetail(comic)">
             <img class="cover" src="{{comic.thumbnail.path + '.' + comic.thumbnail.extension}}" />
-            <h4>{{comic.title}}</h4>
-            <div>
-                {{comic.description}}
-            </div>
-            <div style="flex:1 0 auto; display: flex; flex-flow:column; justify-content: space-bewteen;">
-                <div>{{comic.pageCount}} pages</div>
-                <div>ISBN {{comic.isbn}}</div>
-            </div>
         </div>
     </div>
 </div>
