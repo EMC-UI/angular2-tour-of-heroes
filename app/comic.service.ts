@@ -7,9 +7,12 @@ import { Comic } from './comic';
 
 @Injectable()
 export class ComicService {
-    private baseUrl = 'http://gateway.marvel.com';  // URL to web api
-    private publickey = 'a209df55a8f47a76b87abf209cab27ec'; // api public key (limited to 3000 per day)
-    private privatekey = 'b5b63f833293013997ff21bd9f2c1c33dc569987'; //api private key
+    private baseUrl:string = 'http://gateway.marvel.com';  // URL to web api
+    private publickey:string = 'a209df55a8f47a76b87abf209cab27ec'; // api public key (limited to 3000 per day)
+    private privatekey:string = 'b5b63f833293013997ff21bd9f2c1c33dc569987'; //api private key
+    private offset:number = 0;
+    private limit:number = 20;
+    private totalRecords:number = 0;
 
     constructor(private http: Http) {
     }
@@ -18,7 +21,7 @@ export class ComicService {
         let ts = Date.now();
 
         let comics$ = this.http
-          .get(`${this.baseUrl}/v1/public/comics?ts=${ts.toString()}&apikey=${this.publickey}&hash=${hashkey(ts.toString(), this.publickey, this.privatekey)}`, {headers: this.getHeaders()})
+          .get(`${this.baseUrl}/v1/public/comics?ts=${ts.toString()}&limit=${this.limit}&offset=${this.offset}&apikey=${this.publickey}&hash=${hashkey(ts.toString(), this.publickey, this.privatekey)}`, {headers: this.getHeaders()})
           .map(mapComics)
           .catch(handleError);
           return comics$;
@@ -38,7 +41,7 @@ export class ComicService {
         let ts = Date.now();
 
         let comics$ = this.http
-          .get(`${this.baseUrl}/v1/public/characters/${id}/comics?orderBy=-onsaleDate&ts=${ts.toString()}&apikey=${this.publickey}&hash=${hashkey(ts.toString(), this.publickey, this.privatekey)}`, {headers: this.getHeaders()})
+          .get(`${this.baseUrl}/v1/public/characters/${id}/comics?orderBy=-onsaleDate&ts=${ts.toString()}&limit=${this.limit}&offset=${this.offset}&apikey=${this.publickey}&hash=${hashkey(ts.toString(), this.publickey, this.privatekey)}`, {headers: this.getHeaders()})
           .map(mapComics)
           .catch(handleError);
           return comics$;
@@ -48,7 +51,7 @@ export class ComicService {
         let ts = Date.now();
 
         let comics$ = this.http
-        .get(`${this.baseUrl}/v1/public/comic?nameStartsWith=${term}&ts=${ts.toString()}&apikey=${this.publickey}&hash=${hashkey(ts.toString(), this.publickey, this.privatekey)}`, {headers: this.getHeaders()})
+        .get(`${this.baseUrl}/v1/public/comic?nameStartsWith=${term}&ts=${ts.toString()}&limit=${this.limit}&offset=${this.offset}&apikey=${this.publickey}&hash=${hashkey(ts.toString(), this.publickey, this.privatekey)}`, {headers: this.getHeaders()})
         .map(mapComics)
         .catch(handleError);
         return comics$;
@@ -64,6 +67,8 @@ export class ComicService {
 function mapComics(response:Response): Comic[]{
    // The response of the API has a results
    // property with the actual results
+   this.totalRecords = response.json().data.total;
+   console.log('Total Records: ', this.totalRecords);
    return response.json().data.results.map(toComic);
 }
 

@@ -7,6 +7,8 @@ This is because the local EMC npm repo does not have the angular 2 packages cach
 
 This tells npm to look for the angular packages on the official npm repo registry.
 
+To run the project, use the command 'npm start'.
+
 The Marvel Heroes accesses Marvel's Public API - requires signup (see http://developer.marvel.com/ for details)
 
 The design contains both heroes and comics from Marvel.
